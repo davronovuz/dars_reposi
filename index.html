@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dars namunalari</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 40px 20px;
+  }
+  .quti { width: 100%; max-width: 560px; }
+  h1 { font-size: 26px; margin-bottom: 8px; }
+  p.izoh { color: #94a3b8; font-size: 15px; margin-bottom: 30px; }
+  a.havola {
+    display: block;
+    background: #1e293b;
+    border: 1px solid #334155;
+    border-radius: 14px;
+    padding: 22px 26px;
+    color: #e2e8f0;
+    text-decoration: none;
+    transition: transform .25s, border-color .25s;
+  }
+  a.havola:hover { transform: translateY(-4px); border-color: #60a5fa; }
+  a.havola strong { display: block; font-size: 17px; margin-bottom: 5px; }
+  a.havola span { color: #94a3b8; font-size: 14px; }
+</style>
+</head>
+<body>
+  <div class="quti">
+    <h1>Dars namunalari</h1>
+    <p class="izoh">Frontend kursi uchun tirik natijalar. Har bir namunani ko'rib, o'zingiz takrorlaysiz.</p>
+
+    <a class="havola" href="css-effektlar/">
+      <strong>CSS transform va transition — 12 ta effekt</strong>
+      <span>Sichqonchani effekt ustiga olib boring va kuzatib, o'zingiz yozib ko'ring</span>
+    </a>
+  </div>
+</body>
+</html>
