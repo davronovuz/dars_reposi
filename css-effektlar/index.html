@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transform va Transition — 12 ta amaliy vazifa</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+  line-height: 1.6;
+  padding: 50px 24px 80px;
+}
+
+.sarlavha {
+  max-width: 1100px;
+  margin: 0 auto 50px;
+  text-align: center;
+}
+
+.sarlavha h1 {
+  font-size: 34px;
+  color: #fff;
+  margin-bottom: 12px;
+  letter-spacing: -.5px;
+}
+
+.sarlavha p {
+  color: #94a3b8;
+  font-size: 17px;
+}
+
+.sarlavha .ogoh {
+  display: inline-block;
+  margin-top: 22px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  padding: 12px 22px;
+  font-size: 15px;
+  color: #cbd5e1;
+}
+
+.setka {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 26px;
+}
+
+/* ===== VAZIFA QUTISI ===== */
+.vazifa {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.vazifa__boshi {
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid #334155;
+}
+
+.vazifa__raqam {
+  display: inline-block;
+  background: #2563eb;
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+.vazifa__nom {
+  font-size: 17px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.vazifa__izoh {
+  font-size: 14px;
+  color: #94a3b8;
+  margin-top: 8px;
+}
+
+.sahna {
+  flex: 1;
+  padding: 36px 22px;
+  display: grid;
+  place-items: center;
+  min-height: 210px;
+  background:
+    repeating-linear-gradient(45deg, #172033 0 10px, #1a2438 10px 20px);
+}
+
+/* ============ 1. KO'TARILUVCHI KARTOCHKA ============ */
+.d1 {
+  background: #fff; color: #1e293b;
+  padding: 26px 38px; border-radius: 12px; font-size: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.2);
+  transition: transform .3s, box-shadow .3s;
+}
+.d1:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 18px 34px rgba(0,0,0,.4);
+}
+
+/* ============ 2. KATTALASHUVCHI ============ */
+.d2 {
+  background: #fff; color: #1e293b;
+  padding: 26px 38px; border-radius: 12px; font-size: 16px;
+  transition: transform .3s;
+}
+.d2:hover { transform: scale(1.12); }
+
+/* ============ 3. AYLANUVCHI ============ */
+.d3 {
+  background: #fff; color: #1e293b;
+  padding: 26px 38px; border-radius: 12px; font-size: 16px;
+  transition: transform .4s;
+}
+.d3:hover { transform: rotate(-6deg) scale(1.04); }
+
+/* ============ 4. TUGMA ============ */
+.d4 {
+  background: #2563eb; color: #fff; border: none;
+  padding: 15px 36px; border-radius: 10px;
+  font-size: 16px; font-family: inherit; cursor: pointer;
+  transition: transform .15s, background .15s, box-shadow .15s;
+}
+.d4:hover {
+  background: #1d4ed8;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(37,99,235,.45);
+}
+.d4:active { transform: translateY(0) scale(.95); box-shadow: none; }
+
+/* ============ 5. RASM ZOOM ============ */
+.d5 {
+  width: 260px; height: 150px;
+  border-radius: 12px; overflow: hidden;
+}
+.d5__rasm {
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, #60a5fa, #1e3a8a);
+  display: grid; place-items: center;
+  color: #fff; font-size: 17px; letter-spacing: 2px;
+  transition: transform .45s;
+}
+.d5:hover .d5__rasm { transform: scale(1.18); }
+
+/* ============ 6. QOPLAMA ============ */
+.d6 {
+  position: relative;
+  width: 260px; height: 150px;
+  border-radius: 12px; overflow: hidden;
+  background: linear-gradient(135deg, #34d399, #065f46);
+}
+.d6__ust {
+  position: absolute; inset: 0;
+  background: rgba(15,23,42,.72);
+  display: grid; place-items: center;
+  color: #fff; font-size: 16px;
+  opacity: 0;
+  transition: opacity .3s;
+}
+.d6:hover .d6__ust { opacity: 1; }
+
+/* ============ 7. MENYU CHIZIG'I ============ */
+.d7 { display: flex; gap: 26px; }
+.d7 a {
+  position: relative;
+  color: #cbd5e1; text-decoration: none;
+  padding: 8px 2px; font-size: 16px;
+  transition: color .25s;
+}
+.d7 a::after {
+  content: "";
+  position: absolute; left: 0; bottom: 0;
+  width: 100%; height: 2px;
+  background: #60a5fa;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .28s;
+}
+.d7 a:hover { color: #fff; }
+.d7 a:hover::after { transform: scaleX(1); }
+
+/* ============ 8. IKONKA AYLANADI ============ */
+.d8 {
+  width: 76px; height: 76px;
+  border-radius: 50%;
+  background: #2563eb; color: #fff;
+  display: grid; place-items: center;
+  font-size: 30px; cursor: pointer;
+  transition: transform .5s, background .3s;
+}
+.d8:hover { transform: rotate(180deg); background: #7c3aed; }
+
+/* ============ 9. SIRG'ALIB CHIQUVCHI ============ */
+.d9 {
+  position: relative;
+  width: 260px; height: 150px;
+  border-radius: 12px; overflow: hidden;
+  background: linear-gradient(135deg, #f472b6, #9d174d);
+}
+.d9__panel {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  background: rgba(15,23,42,.85);
+  color: #fff; padding: 16px 20px; font-size: 15px;
+  transform: translateY(100%);
+  transition: transform .35s;
+}
+.d9:hover .d9__panel { transform: translateY(0); }
+
+/* ============ 10. FLIP ============ */
+.d10 { width: 240px; height: 150px; perspective: 1000px; }
+.d10__ich {
+  position: relative; width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transition: transform .65s;
+}
+.d10:hover .d10__ich { transform: rotateY(180deg); }
+.d10__old, .d10__orqa {
+  position: absolute; inset: 0;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  display: grid; place-items: center;
+  font-size: 17px;
+}
+.d10__old  { background: #fff; color: #1e293b; }
+.d10__orqa { background: #2563eb; color: #fff; transform: rotateY(180deg); }
+
+/* ============ 11. SAKRAB QAYTUVCHI ============ */
+.d11 {
+  background: #f59e0b; color: #fff; border: none;
+  padding: 15px 36px; border-radius: 10px;
+  font-size: 16px; font-family: inherit; cursor: pointer;
+  transition: transform .45s cubic-bezier(.34, 1.56, .64, 1);
+}
+.d11:hover { transform: scale(1.18); }
+
+/* ============ 12. CHEGARA O'SADI ============ */
+.d12 {
+  position: relative;
+  background: #1e293b; color: #e2e8f0;
+  border: 2px solid #334155;
+  padding: 26px 34px; border-radius: 12px; font-size: 16px;
+  transition: border-color .3s, transform .3s;
+}
+.d12::before {
+  content: "";
+  position: absolute; left: 50%; bottom: -2px;
+  width: 0; height: 3px;
+  background: #22c55e;
+  transform: translateX(-50%);
+  transition: width .35s;
+}
+.d12:hover { border-color: #475569; transform: translateY(-4px); }
+.d12:hover::before { width: 70%; }
+
+/* ===== FOOTER ===== */
+.oxiri {
+  max-width: 1100px;
+  margin: 56px auto 0;
+  text-align: center;
+  color: #64748b;
+  font-size: 15px;
+  border-top: 1px solid #1e293b;
+  padding-top: 28px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="sarlavha">
+  <h1>Transform va Transition</h1>
+  <p>12 ta amaliy vazifa — natijasi</p>
+  <div class="ogoh">
+    Sichqonchani har bir qutichaga olib boring va effektni kuzating.
+    Vazifangiz — shu effektlarni o'zingiz yasash.
+  </div>
+</div>
+
+<div class="setka">
+
+  <div class="vazifa">
+    <div class="vazifa__boshi">
+      <span class="vazifa__raqam">1</span>
+      <span class="vazifa__nom">Ko'tariluvchi kartochka</span>
+      <div class="vazifa__izoh">Kartochka yuqoriga ko'tariladi, soyasi chuqurlashadi. Yonidagilar qimirlamaydi.</div>
+    </div>
+    <div class="sahna"><div class="d1">Kartochka</div></div>
+  </div>
+
+  <div class="vazifa">
+    <div class="vazifa__boshi">
+      <span class="vazifa__raqam">2</span>
+      <span class="vazifa__nom">Kattalashuvchi kartochka</span>
+      <div class="vazifa__izoh">Kartochka silliq kattalashadi, lekin o'z joyidan chiqmaydi.</div>
+    </div>
+    <div class="sahna"><div class="d2">Kartochka</div></div>
+  </div>
+
+  <div class="vazifa">
+    <div class="vazifa__boshi">
+      <span class="vazifa__raqam">3</span>
+      <span class="vazifa__nom">Aylanuvchi kartochka</span>
+      <div class="vazifa__izoh">Biroz chapga qiyshayadi va ayni paytda kattalashadi. Ikkita transform birga.</div>
+    </div>
+    <div class="sahna"><div class="d3">Kartochka</div></div>
+  </div>
+
+  <div class="vazifa">
+    <div class="vazifa__boshi">
+      <span class="vazifa__raqam">4</span>
+      <span class="vazifa__nom">Tugma — uch holat</span>
+      <div class="vazifa__izoh">Hover'da ko'tariladi va to'qlashadi. <b>Bosib ushlab turing</b> — kichrayadi.</div>
+    </div>
+    <div class="sahna"><button class="d4">Yuborish</button></div>
+  </div>
+
+  <div class="vazifa">
+    <div class="vazifa__boshi">
+      <span class="vazifa__raqam">5</span>
+      <span class="vazifa__nom">Rasm ichida kattalashadi</span>
+      <div class="vazifa__izoh">Rasm kattalashadi, lekin ramkadan chiqmaydi — chetlari kesiladi.</div>
+    </div>
+    <div class="sahna"><div class="d5"><div class="d5__rasm">RASM</div></div></div>
+  </div>
+
+  <div class="vazifa">
+    <div class="vazifa__boshi">
+      <span class="vazifa__raqam">6</span>
+      <span class="vazifa__nom">Rasm ustida qoplama</span>
+      <div class="vazifa__izoh">Qora qatlam va matn asta paydo bo'ladi. Sakrab emas.</div>
+    </div>
+    <div class="sahna">
+      <div class="d6"><div class="d6__ust">Batafsil ko'rish</div></div>
+    </div>
+  </div>
+
+  <div class="vazifa">
+    <div class="vazifa__boshi">
+      <span class="vazifa__raqam">7</span>
+      <span class="vazifa__nom">Menyu chizig'i</span>
+      <div class="vazifa__izoh">Havola ostidan chiziq <b>chapdan o'ngga</b> o'sib chiqadi.</div>
+    </div>
+    <div class="sahna">
+      <nav class="d7">
+        <a href="#">Bosh sahifa</a>
+        <a href="#">Blog</a>
+        <a href="#">Aloqa</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="vazifa">
+    <div class="vazifa__boshi">
+      <span class="vazifa__raqam">8</span>
+      <span class="vazifa__nom">Aylanuvchi ikonka</span>
+      <div class="vazifa__izoh">Dumaloq tugma 180 gradusga aylanadi va rangi o'zgaradi.</div>
+    </div>
+    <div class="sahna"><div class="d8">+</div></div>
+  </div>
+
+  <div class="vazifa">
+    <div class="vazifa__boshi">
+      <span class="vazifa__raqam">9</span>
+      <span class="vazifa__nom">Pastdan sirg'alib chiquvchi panel</span>
+      <div class="vazifa__izoh">Matn paneli pastdan sirg'alib chiqadi. Boshida butunlay ko'rinmaydi.</div>
+    </div>
+    <div class="sahna">
+      <div class="d9"><div class="d9__panel">Mahsulot nomi — 450 000 so'm</div></div>
+    </div>
+  </div>
+
+  <div class="vazifa">
+    <div class="vazifa__boshi">
+      <span class="vazifa__raqam">10</span>
+      <span class="vazifa__nom">Ortga aylanadigan kartochka</span>
+      <div class="vazifa__izoh">Kartochka aylanib, orqa tomonini ko'rsatadi. 3D effekt.</div>
+    </div>
+    <div class="sahna">
+      <div class="d10"><div class="d10__ich">
+        <div class="d10__old">Old tomon</div>
+        <div class="d10__orqa">Orqa tomon</div>
+      </div></div>
+    </div>
+  </div>
+
+  <div class="vazifa">
+    <div class="vazifa__boshi">
+      <span class="vazifa__raqam">11</span>
+      <span class="vazifa__nom">Sakrab qaytuvchi tugma</span>
+      <div class="vazifa__izoh">Tugma maqsaddan <b>oshib ketib</b>, keyin qaytadi — prujina kabi. Oddiy <code>ease</code> buni qila olmaydi.</div>
+    </div>
+    <div class="sahna"><button class="d11">Bosing</button></div>
+  </div>
+
+  <div class="vazifa">
+    <div class="vazifa__boshi">
+      <span class="vazifa__raqam">12</span>
+      <span class="vazifa__nom">Pastdan o'suvchi chiziq</span>
+      <div class="vazifa__izoh">Kartochka ko'tariladi va pastida yashil chiziq <b>markazdan ikki tomonga</b> o'sadi.</div>
+    </div>
+    <div class="sahna"><div class="d12">Kartochka</div></div>
+  </div>
+
+</div>
+
+<div class="oxiri">
+  Har bir effekt faqat <b>transform</b>, <b>transition</b>, <b>opacity</b> va box model bilan yasalgan.<br>
+  JavaScript ishlatilmagan.
+</div>
+
+</body>
+</html>
