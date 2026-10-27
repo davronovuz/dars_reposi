@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CSS Animation — tirik namunalar</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --fon:    #0b1220;
+  --karta:  #161f33;
+  --chek:   #263249;
+  --matn:   #e6ecf5;
+  --xira:   #93a3bd;
+  --kok:    #3b82f6;
+  --yashil: #22c55e;
+  --sariq:  #f59e0b;
+  --qizil:  #ef4444;
+}
+
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--fon);
+  color: var(--matn);
+  padding: 46px 22px 70px;
+  line-height: 1.55;
+}
+
+.sarlavha { max-width: 1180px; margin: 0 auto 34px; text-align: center; }
+.sarlavha h1 { font-size: clamp(25px, 4vw, 35px); letter-spacing: -.5px; }
+.sarlavha p  { color: var(--xira); margin-top: 7px; font-size: 15px; }
+
+.eslatma {
+  max-width: 660px;
+  margin: 18px auto 0;
+  background: #16233c;
+  border: 1px solid var(--chek);
+  border-radius: 11px;
+  padding: 13px 18px;
+  font-size: 13.5px;
+  color: var(--xira);
+}
+
+.setka {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: 20px;
+}
+
+.blok {
+  background: var(--karta);
+  border: 1px solid var(--chek);
+  border-radius: 15px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.blok__boshi { padding: 17px 19px 14px; }
+
+.blok__nom {
+  display: flex; align-items: center; gap: 9px;
+  font-size: 15px; font-weight: 650; margin-bottom: 5px;
+}
+
+.raqam {
+  flex: none;
+  width: 24px; height: 24px;
+  border-radius: 7px;
+  background: var(--kok);
+  color: #fff;
+  font-size: 12.5px; font-weight: 700;
+  display: grid; place-items: center;
+}
+
+.blok__izoh { color: var(--xira); font-size: 13.5px; }
+
+.blok__izoh code {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  background: #1f2b44;
+  padding: 1px 6px;
+  border-radius: 5px;
+  color: #a5c4ff;
+}
+
+.sahna {
+  flex: 1;
+  min-height: 190px;
+  display: grid;
+  place-items: center;
+  padding: 26px 20px;
+  border-top: 1px solid var(--chek);
+  background:
+    repeating-linear-gradient(45deg,
+      #121b2d 0 9px, #141e32 9px 18px);
+}
+
+/* ============ 1. pastdan kirib kelish ============ */
+@keyframes kirib-kel {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.kirish {
+  background: #fff; color: #0f172a;
+  padding: 18px 30px; border-radius: 11px;
+  font-weight: 600; font-size: 14.5px;
+  animation: kirib-kel .7s ease-out both;
+}
+
+/* ============ 2. spinner ============ */
+@keyframes aylan { to { transform: rotate(360deg); } }
+.spinner {
+  width: 50px; height: 50px;
+  border-radius: 50%;
+  border: 5px solid #26324a;
+  border-top-color: var(--kok);
+  animation: aylan .9s linear infinite;
+}
+
+/* ============ 3. nafas oluvchi nuqta ============ */
+@keyframes nafas { to { transform: scale(1.45); } }
+.nuqta-quti { display: flex; align-items: center; gap: 11px;
+  font-size: 14px; color: var(--xira); }
+.nuqta {
+  width: 15px; height: 15px; border-radius: 50%;
+  background: var(--yashil);
+  animation: nafas .55s ease-in-out infinite alternate;
+}
+
+/* ============ 4. pulsatsiya halqasi ============ */
+@keyframes halqa {
+  0%   { box-shadow: 0 0 0 0 rgba(59,130,246,.65); }
+  100% { box-shadow: 0 0 0 22px rgba(59,130,246,0); }
+}
+.puls {
+  background: var(--kok); color: #fff; border: none;
+  padding: 15px 34px; border-radius: 10px;
+  font-size: 15px; font-family: inherit; font-weight: 600;
+  cursor: pointer;
+  animation: halqa 1.7s ease-out infinite;
+}
+
+/* ============ 5. uchta nuqta ============ */
+@keyframes sakra {
+  0%, 60%, 100% { transform: translateY(0); }
+  30%           { transform: translateY(-13px); }
+}
+.yozilyapti { display: flex; gap: 9px; }
+.yozilyapti span {
+  width: 13px; height: 13px; border-radius: 50%;
+  background: var(--xira);
+  animation: sakra 1.1s ease-in-out infinite;
+}
+.yozilyapti span:nth-child(2) { animation-delay: .15s; }
+.yozilyapti span:nth-child(3) { animation-delay: .3s; }
+
+/* ============ 6. skeleton ============ */
+@keyframes yoritgich {
+  from { background-position: -300px 0; }
+  to   { background-position: 300px 0; }
+}
+.skelet { width: 100%; max-width: 250px; }
+.skelet > div {
+  border-radius: 7px;
+  background: linear-gradient(90deg, #1e2a42 25%, #2c3b58 50%, #1e2a42 75%);
+  background-size: 300px 100%;
+  animation: yoritgich 1.5s linear infinite;
+}
+.skelet__rasm { height: 84px; margin-bottom: 11px; }
+.skelet__matn { height: 11px; margin-bottom: 8px; }
+.skelet__matn--qisqa { width: 58%; margin-bottom: 0; }
+
+/* ============ 7. progress ============ */
+@keyframes tola { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.progress-quti { width: 100%; max-width: 250px; }
+.progress {
+  height: 11px; border-radius: 6px;
+  background: #22304a; overflow: hidden;
+}
+.progress__ich {
+  height: 100%;
+  background: linear-gradient(90deg, var(--kok), #8b5cf6);
+  transform-origin: left;
+  animation: tola 2.4s ease-out infinite;
+}
+.progress-quti p { margin-top: 11px; font-size: 12.5px;
+  color: var(--xira); text-align: center; }
+
+/* ============ 8. silkinuvchi input ============ */
+@keyframes silkin {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-8px); }
+  40%, 80% { transform: translateX(8px); }
+}
+.xato-quti { width: 100%; max-width: 250px; }
+.xato-input {
+  width: 100%;
+  background: #121c2e;
+  border: 2px solid var(--qizil);
+  border-radius: 9px;
+  padding: 12px 15px;
+  color: var(--matn);
+  font-family: inherit; font-size: 14px;
+  animation: silkin .45s linear infinite;
+  animation-delay: 1.4s;
+}
+.xato-quti small { display: block; margin-top: 8px;
+  color: var(--qizil); font-size: 12.5px; }
+
+/* ============ 9. ketma-ket ============ */
+@keyframes qadam {
+  0%        { opacity: 0; transform: translateY(14px); }
+  18%, 78%  { opacity: 1; transform: translateY(0); }
+  100%      { opacity: 0; transform: translateY(14px); }
+}
+.qatorlar { width: 100%; max-width: 250px; display: grid; gap: 9px; }
+.qatorlar div {
+  height: 34px; border-radius: 8px;
+  background: #223150;
+  border-left: 3px solid var(--kok);
+  animation: qadam 2.6s ease-out infinite;
+}
+.qatorlar div:nth-child(2) { animation-delay: .12s; }
+.qatorlar div:nth-child(3) { animation-delay: .24s; }
+.qatorlar div:nth-child(4) { animation-delay: .36s; }
+
+/* ============ 10. surilib turuvchi lenta ============ */
+@keyframes surila { to { transform: translateX(-50%); } }
+.lenta { width: 100%; overflow: hidden; -webkit-mask-image:
+  linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent); }
+.lenta__ich {
+  display: flex; gap: 13px; width: max-content;
+  animation: surila 9s linear infinite;
+}
+.lenta:hover .lenta__ich { animation-play-state: paused; }
+.lenta__ich span {
+  flex: none;
+  background: #223150; border: 1px solid var(--chek);
+  border-radius: 8px; padding: 11px 19px;
+  font-size: 13px; color: var(--xira);
+  font-family: ui-monospace, Menlo, monospace;
+}
+
+/* ============ 11. steps — yozilayotgan matn ============ */
+@keyframes teril { from { width: 0; } to { width: 14ch; } }
+@keyframes kursor { 50% { border-color: transparent; } }
+.terilmoqda {
+  font-family: ui-monospace, Menlo, Consolas, monospace;
+  font-size: 17px; color: #7dd3fc;
+  white-space: nowrap; overflow: hidden;
+  border-right: 2.5px solid #7dd3fc;
+  width: 14ch;
+  animation:
+    teril 2.6s steps(14) infinite,
+    kursor .85s step-end infinite;
+}
+
+/* ============ 12. linear va ease farqi ============ */
+@keyframes yugur { to { transform: translateX(150px); } }
+.qiyos { width: 100%; max-width: 250px; display: grid; gap: 15px; }
+.qiyos__qator { }
+.qiyos__nom { font-size: 11.5px; color: var(--xira);
+  font-family: ui-monospace, Menlo, monospace; margin-bottom: 6px; }
+.qiyos__yol { height: 28px; position: relative; }
+.yuguruvchi {
+  width: 28px; height: 28px; border-radius: 7px;
+  animation: yugur 1.8s infinite alternate;
+}
+.yuguruvchi--linear { background: var(--yashil); animation-timing-function: linear; }
+.yuguruvchi--ease   { background: var(--sariq);  animation-timing-function: ease-in-out; }
+
+.oyoq {
+  max-width: 1180px; margin: 36px auto 0;
+  text-align: center; color: var(--xira); font-size: 13.5px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+
+<header class="sarlavha">
+  <h1>CSS Animation</h1>
+  <p>@keyframes bilan yasalgan 12 ta tirik namuna</p>
+  <div class="eslatma">
+    Bu yerda hech narsa bosilmaydi va sichqoncha kerak emas — hammasi
+    sahifa ochilishi bilan o'zi ishlab turibdi. Faqat <b>10-namunadagi lenta</b>
+    sichqoncha ustiga kelganda to'xtaydi.
+  </div>
+</header>
+
+<main class="setka">
+
+  <section class="blok">
+    <div class="blok__boshi">
+      <div class="blok__nom"><span class="raqam">1</span> Pastdan kirib kelish</div>
+      <div class="blok__izoh">Sahifa ochilganda bir marta ishlaydi va joyida qoladi —
+        <code>both</code> shuni ta'minlaydi. Yangilab ko'ring.</div>
+    </div>
+    <div class="sahna"><div class="kirish">Salom, dunyo</div></div>
+  </section>
+
+  <section class="blok">
+    <div class="blok__boshi">
+      <div class="blok__nom"><span class="raqam">2</span> Yuklanish aylanasi</div>
+      <div class="blok__izoh"><code>linear</code> va <code>infinite</code>.
+        Bir tekis aylanadi, sekinlashmaydi.</div>
+    </div>
+    <div class="sahna"><div class="spinner"></div></div>
+  </section>
+
+  <section class="blok">
+    <div class="blok__boshi">
+      <div class="blok__nom"><span class="raqam">3</span> Nafas oluvchi nuqta</div>
+      <div class="blok__izoh">Ikkita bosqich va <code>alternate</code> —
+        borib-kelib yuradi, sakramaydi.</div>
+    </div>
+    <div class="sahna">
+      <div class="nuqta-quti"><span class="nuqta"></span> Onlayn</div>
+    </div>
+  </section>
+
+  <section class="blok">
+    <div class="blok__boshi">
+      <div class="blok__nom"><span class="raqam">4</span> Pulsatsiya halqasi</div>
+      <div class="blok__izoh">Tugma turibdi, faqat <code>box-shadow</code> kengayib
+        shaffoflashadi. Diqqat tortish uchun.</div>
+    </div>
+    <div class="sahna"><button class="puls">Hozir buyurtma bering</button></div>
+  </section>
+
+  <section class="blok">
+    <div class="blok__boshi">
+      <div class="blok__nom"><span class="raqam">5</span> "Yozilyapti" nuqtalari</div>
+      <div class="blok__izoh">Uchalasida animatsiya bir xil. Farq faqat
+        <code>animation-delay</code> da.</div>
+    </div>
+    <div class="sahna">
+      <div class="yozilyapti"><span></span><span></span><span></span></div>
+    </div>
+  </section>
+
+  <section class="blok">
+    <div class="blok__boshi">
+      <div class="blok__nom"><span class="raqam">6</span> Skeleton</div>
+      <div class="blok__izoh">Element qimirlamaydi — ichidagi
+        <code>background-position</code> suriladi.</div>
+    </div>
+    <div class="sahna">
+      <div class="skelet">
+        <div class="skelet__rasm"></div>
+        <div class="skelet__matn"></div>
+        <div class="skelet__matn skelet__matn--qisqa"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blok">
+    <div class="blok__boshi">
+      <div class="blok__nom"><span class="raqam">7</span> Progress bar</div>
+      <div class="blok__izoh"><code>width</code> emas,
+        <code>scaleX</code> + <code>transform-origin: left</code>.</div>
+    </div>
+    <div class="sahna">
+      <div class="progress-quti">
+        <div class="progress"><div class="progress__ich"></div></div>
+        <p>yuklanmoqda…</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="blok">
+    <div class="blok__boshi">
+      <div class="blok__nom"><span class="raqam">8</span> Xato — silkinish</div>
+      <div class="blok__izoh">Beshta bosqich uch qatorga sig'di — foizlar vergul bilan
+        guruhlangan. <code>linear</code> muhim.</div>
+    </div>
+    <div class="sahna">
+      <div class="xato-quti">
+        <input class="xato-input" value="email@" readonly>
+        <small>Email noto'g'ri kiritilgan</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="blok">
+    <div class="blok__boshi">
+      <div class="blok__nom"><span class="raqam">9</span> Ketma-ket chiqish</div>
+      <div class="blok__izoh">To'rtta qator birin-ketin. Har biriga
+        0.12s dan ko'proq <code>delay</code>.</div>
+    </div>
+    <div class="sahna">
+      <div class="qatorlar"><div></div><div></div><div></div><div></div></div>
+    </div>
+  </section>
+
+  <section class="blok">
+    <div class="blok__boshi">
+      <div class="blok__nom"><span class="raqam">10</span> Surilib turuvchi lenta</div>
+      <div class="blok__izoh">Sichqonchani ustiga olib boring — <code>animation-play-state:
+        paused</code> bilan to'xtaydi va o'sha joyidan davom etadi.</div>
+    </div>
+    <div class="sahna">
+      <div class="lenta">
+        <div class="lenta__ich">
+          <span>HTML</span><span>CSS</span><span>Python</span><span>FastAPI</span>
+          <span>Docker</span><span>nginx</span><span>PostgreSQL</span>
+          <span>HTML</span><span>CSS</span><span>Python</span><span>FastAPI</span>
+          <span>Docker</span><span>nginx</span><span>PostgreSQL</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blok">
+    <div class="blok__boshi">
+      <div class="blok__nom"><span class="raqam">11</span> Terilayotgan matn</div>
+      <div class="blok__izoh"><code>steps()</code> silliq emas, sakrab o'tkazadi —
+        shuning uchun harflar bittalab chiqadi.</div>
+    </div>
+    <div class="sahna"><div class="terilmoqda">Frontend kursi</div></div>
+  </section>
+
+  <section class="blok">
+    <div class="blok__boshi">
+      <div class="blok__nom"><span class="raqam">12</span> linear va ease farqi</div>
+      <div class="blok__izoh">Ikkalasi bir vaqtda yo'lga chiqadi. Yashil bir tekis,
+        sariq esa chetlarida sekinlashadi.</div>
+    </div>
+    <div class="sahna">
+      <div class="qiyos">
+        <div class="qiyos__qator">
+          <div class="qiyos__nom">linear</div>
+          <div class="qiyos__yol"><div class="yuguruvchi yuguruvchi--linear"></div></div>
+        </div>
+        <div class="qiyos__qator">
+          <div class="qiyos__nom">ease-in-out</div>
+          <div class="qiyos__yol"><div class="yuguruvchi yuguruvchi--ease"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<p class="oyoq">Har bir namunaning kodini ko'rish uchun F12 → Elements</p>
+
+</body>
+</html>
